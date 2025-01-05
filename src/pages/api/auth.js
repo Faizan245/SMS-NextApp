@@ -2,6 +2,8 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 
 const dbPath = path.resolve(process.cwd(), 'database.sqlite');
+console.log('Database Path:', dbPath);  // Add this line
+
 const db = new sqlite3.Database(dbPath);
 
 export default function handler(req, res) {

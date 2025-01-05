@@ -19,25 +19,24 @@ db.serialize(() => {
       username TEXT NOT NULL,
       password TEXT NOT NULL
     )
-  `, (err) => {
+  `, function(err) {
     if (err) {
       console.error('Error creating table:', err);
     } else {
-      console.log('Admin table created or already exists.');
+      console.log('Admin table created');
     }
-  });
 
-  // Insert admin credentials if not already inserted
-  db.run(`
-    INSERT OR IGNORE INTO admin (username, password)
-    VALUES ('admin', 'password123')
-  `, (err) => {
-    if (err) {
-      console.error('Error inserting admin credentials:', err);
-    } else {
-      console.log('Admin credentials inserted or already exist.');
-    }
+    // Insert admin credentials if not already inserted
+    db.run(`
+      INSERT INTO admin (username, password)
+      VALUES ('admin', 'password')
+    `, function(err) {
+      if (err) {
+        console.error('Error inserting admin credentials:', err);
+      } else {
+        console.log('Admin credentials inserted or already exist.');
+      }
+      db.close();
+    });
   });
 });
-
-db.close();
