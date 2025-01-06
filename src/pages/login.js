@@ -1,10 +1,14 @@
 'use client'
 import { useState } from 'react';
-
+import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/navigation'
 const Login = () =>  {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const { login } = useAuth();
+  const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +21,9 @@ const Login = () =>  {
 
     if (data.success) {
       alert('Login successful!');
+      login();
+      router.push('/home')
+      
     } else {
       setError('Invalid credentials');
     }
@@ -25,7 +32,7 @@ const Login = () =>  {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded shadow-md">
-        <h2 className="text-lg font-bold mb-4">Admin Login</h2>
+        <h2 className="text-lg font-bold text-black mb-4">Admin Login</h2>
         {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4 text-black">
           <input
