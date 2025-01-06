@@ -1,9 +1,8 @@
 'use client'
 import React from 'react'
 import { useAuth } from '../../../context/AuthContext';
-import { useRouter } from 'next/navigation'
 const HomePage = () => {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     if (!isAuthenticated) {
          return <h1>Please login first</h1>
@@ -11,7 +10,8 @@ const HomePage = () => {
     return (
         <>
             <div>HomePage</div>
-            <button onClick={logout}>Logout</button>
+            
+            
         </>
     )
 }

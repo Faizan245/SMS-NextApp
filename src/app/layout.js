@@ -1,6 +1,14 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '../../context/AuthContext';
+import Sidebar from "../pages/SideBar/SideBar"; // Import the Sidebar component
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+ 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,10 +28,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
+          <div className="flex h-screen">
+            <Sidebar /> {/* Sidebar on the left */}
+            <main className="flex-1 bg-gray-100 p-6 overflow-y-auto">
+              {children} {/* Main content */}
+            </main>
+          </div>
         </AuthProvider>
       </body>
     </html>
