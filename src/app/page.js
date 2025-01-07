@@ -1,32 +1,26 @@
 'use client';
-import { useAuth } from '../../context/AuthContext';
-import Login from "@/pages/login";
-import HomePage from "@/pages/HomePage";
-import { useState, useEffect } from 'react';
 
-export default function Home() {
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext";
+import Login from "@/pages/login";
+
+export default function App() {
   const { isAuthenticated } = useAuth();
-  const [loading, setLoading] = useState(true); // Loading state
+  const router = useRouter();
 
   useEffect(() => {
-    // Simulate an async operation to check auth status
-    const checkAuth = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate delay
-      setLoading(false);
-    };
+    if (isAuthenticated) {
+      // Redirect to the /home route if the user is authenticated
+      router.push("/home");
+    }
+  }, [isAuthenticated, router]);
 
-    checkAuth();
-  }, [isAuthenticated]);
-
-  // Show a loader while checking authentication
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Loading...</p>
-      </div>
-    );
+  if (!isAuthenticated) {
+    // Render the login page if the user is not authenticated
+    return <Login />;
   }
 
-  // Render HomePage if authenticated, otherwise render Login
-  return isAuthenticated ? <HomePage /> : <Login />;
+  // Optional: You can render a loading spinner or placeholder while the user is being redirected
+  return null;
 }
