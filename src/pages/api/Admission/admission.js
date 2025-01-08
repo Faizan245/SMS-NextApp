@@ -5,41 +5,30 @@ import path from 'path';
 const dbPath = path.resolve(process.cwd(), 'database.sqlite');
 const db = new sqlite3.Database(dbPath);
 
-const getYearColumn = (admissionYear) => {
-    switch (admissionYear) {
-        case '23-24':
-            return 'year_23_24';
-        case '24-25':
-            return 'year_24_25';
-        case '25-26':
-            return 'year_25_26';
-        case '26-27':
-            return 'year_26_27';
-        default:
-            return null;
-    }
-};
 
 export default (req, res) => {
     if (req.method === 'POST') {
-        const data = req.body;
+        const data = req.body; // फ्रंटएंड से डेटा प्राप्त करें
         const scholarNo = data.scholar_no;
 
-        // Determine the correct year column
-        const yearColumn = getYearColumn(data.admission_year);
-        if (!yearColumn) {
+        // Validate admission year (should match required format)
+        const validYears = ['year_23_24', 'year_24_25', 'year_25_26', 'year_26_27'];
+        if (!validYears.includes(data.admission_year)) {
             return res.status(400).json({ "error": "Invalid admission year" });
         }
 
-        // Set values for all year columns
+        // Default year columns को खाली रखें
         const yearColumns = {
-            year_23_24: yearColumn === 'year_23_24' ? data.admission_class : '',
-            year_24_25: yearColumn === 'year_24_25' ? data.admission_class : '',
-            year_25_26: yearColumn === 'year_25_26' ? data.admission_class : '',
-            year_26_27: yearColumn === 'year_26_27' ? data.admission_class : '',
+            year_23_24: '',
+            year_24_25: '',
+            year_25_26: '',
+            year_26_27: ''
         };
 
-        // Check if scholar_no already exists
+        // सही कॉलम में admission_class सेट करें
+        yearColumns[data.admission_year] = data.admission_class;
+
+        // Check if scholar_no पहले से मौजूद है
         db.get(`SELECT scholar_no FROM admissions WHERE scholar_no = ?`, [scholarNo], (err, row) => {
             if (err) {
                 return res.status(500).json({ "error": err.message });
@@ -50,7 +39,7 @@ export default (req, res) => {
                 return res.status(400).json({ "error": "Scholar No. already exists" });
             }
 
-            // Insert new record
+            // SQL Query
             const sql = `INSERT INTO admissions (
                 scholar_no, student_name, dob, gender, samagra_id, family_id, contact_no, 
                 father_name, mother_name, cast, aadhar_number, name_on_aadhar, whatsapp_no, 
@@ -58,6 +47,7 @@ export default (req, res) => {
                 bank_account, ifsc_code, photo, document, year_23_24, year_24_25, year_25_26, year_26_27
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
+            // Parameters for SQL query
             const params = [
                 scholarNo,
                 data.student_name,
@@ -87,11 +77,16 @@ export default (req, res) => {
                 yearColumns.year_26_27
             ];
 
+            // Query Execute करें
             db.run(sql, params, function (err) {
                 if (err) {
                     return res.status(500).json({ "error": err.message });
                 }
-                res.status(200).json({ "message": "Record added successfully", "data":data, id: this.lastID });
+                res.status(200).json({ 
+                    "message": "Record added successfully", 
+                    "data": data, 
+                    id: this.lastID 
+                });
             });
         });
     } else if (req.method === 'GET') {

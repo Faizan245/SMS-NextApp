@@ -1,10 +1,10 @@
-'use client'
+//'use client'
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../assets/logo.png";
-import { useAuth } from '../../../context/AuthContext';
+//import { useAuth } from '../../../context/AuthContext';
 export default function Sidebar() {
-    const { logout } = useAuth();
+    //const { logout } = useAuth();
     return (
         <div className="bg-gray-800 text-white w-64 h-screen p-4 flex flex-col justify-between">
             <div>
@@ -24,7 +24,7 @@ export default function Sidebar() {
                 </nav>
             </div>
             <div className="flex justify-center">
-                <button onClick={logout} className="bg-gray-900 hover:bg-gray-700 text-white rounded-xl font-semibold py-1 px-3">
+                <button className="bg-gray-900 hover:bg-gray-700 text-white rounded-xl font-semibold py-1 px-3">
                     Log Out
                 </button>
             </div>

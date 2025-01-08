@@ -1,5 +1,6 @@
 "use client"; 
 import React, { useState, useEffect } from 'react';
+import AdmissionForm from './admissionform';
 
 const AdmissionPage = () => {
   const [session, setSession] = useState('2022');
@@ -55,19 +56,59 @@ const AdmissionPage = () => {
   return (
     <div style={{ padding: '20px' }}>
       {/* Header/Navbar */}
-      <nav style={{ marginBottom: '20px' }}>
-        <button onClick={() => setActiveTab('AdmissionForm')}>Admission Form</button>
-        <button onClick={() => setActiveTab('EditAdmission')}>Edit Student's Admission Details</button>
-        <button onClick={() => setActiveTab('YearwiseList')}>Year wise Admission List</button>
-      </nav>
+      <nav style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
+    <button
+      onClick={() => setActiveTab('AdmissionForm')}
+      style={{
+        padding: '10px 20px',
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseOver={(e) => (e.target.style.backgroundColor = '#45a049')}
+      onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
+    >
+      Admission Form
+    </button>
+    <button
+      onClick={() => setActiveTab('EditAdmission')}
+      style={{
+        padding: '10px 20px',
+        backgroundColor: '#2196F3',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseOver={(e) => (e.target.style.backgroundColor = '#0b7dda')}
+      onMouseOut={(e) => (e.target.style.backgroundColor = '#2196F3')}
+    >
+      Edit Student's Admission Details
+    </button>
+    <button
+      onClick={() => setActiveTab('YearwiseList')}
+      style={{
+        padding: '10px 20px',
+        backgroundColor: '#f44336',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+      }}
+      onMouseOver={(e) => (e.target.style.backgroundColor = '#e53935')}
+      onMouseOut={(e) => (e.target.style.backgroundColor = '#f44336')}
+    >
+      Year wise Admission List
+    </button>
+  </nav>
 
       {/* Admission Form */}
-      {activeTab === 'AdmissionForm' && (
-        <div>
-          <h1>Admission Form</h1>
-          <p>Admission form component will go here.</p>
-        </div>
-      )}
+      {activeTab === 'AdmissionForm' && <AdmissionForm />}
 
       {/* Edit Admission Details */}
       {activeTab === 'EditAdmission' && (

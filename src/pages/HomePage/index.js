@@ -1,12 +1,12 @@
-'use client'
+//'use client'
 import React from 'react'
-import { useAuth } from '../../../context/AuthContext';
+//import { useAuth } from '../../../context/AuthContext';
 const HomePage = () => {
-    const { isAuthenticated } = useAuth();
+    //const { isAuthenticated } = useAuth();
 
-    if (!isAuthenticated) {
-         return <h1>Please login first</h1>
-      }
+    // if (!isAuthenticated) {
+    //      return <h1>Please login first</h1>
+    //   }
     return (
         <>
             <div>HomePage</div>
